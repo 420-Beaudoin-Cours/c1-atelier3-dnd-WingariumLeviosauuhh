@@ -3,6 +3,7 @@ package sample;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.*;
+import javafx.scene.text.Text;
 
 public class Controller {
 	
@@ -24,16 +25,22 @@ public class Controller {
 	 * Fonction qui detect si le content est approprier pour l'accepter ou refuser
 	 * @param dragEvent
 	 */
-	public void imgViewDragOver(DragEvent dragEvent){
+	public void txfDragOver(DragEvent dragEvent){
 		dragEvent.acceptTransferModes(TransferMode.ANY);
 	}
 	
 	/**
-	 * Fonction qui efface le contenu dans txfSource
+	 * Fonction qui deplace le contenu dans txfSource
 	 * @param dragEvent
 	 */
-	public void imgViewDragDropped(DragEvent dragEvent){
-		TextField refTarget = (TextField) dragEvent.getGestureSource();
-		refTarget.clear();
+	public void txfDragDropped(DragEvent dragEvent){
+		TextField refSource = (TextField) dragEvent.getGestureSource();
+		TextField refTarget = (TextField) dragEvent.getGestureTarget();
+		
+		//Eviter qu'ils s'auto effacent
+		if(refSource != refTarget){
+			refTarget.setText(refSource.getText());
+			refSource.clear();
+		}
 	}
 }
